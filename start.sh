@@ -1,2 +1,3 @@
 #!/bin/bash
-python bot.py
+# Start the application
+python3 app.py
