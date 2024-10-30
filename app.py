@@ -63,22 +63,22 @@ def play_game(token: str):
         else:
             return f"Claim failed, retrying...: {claim_response.text}"
 
-def start(update: Update, context: CallbackContext) -> None:
+async def start(update: Update, context: CallbackContext) -> None:
     """Start command handler."""
-    update.message.reply_text('Welcome! Please provide your session link.')
+    await update.message.reply_text('Welcome! Please provide your session link.')
 
-def handle_session_link(update: Update, context: CallbackContext) -> None:
+async def handle_session_link(update: Update, context: CallbackContext) -> None:
     """Handle the session link provided by the user."""
     session_link = update.message.text
     token = login_to_game(session_link)
 
     if isinstance(token, str) and token.startswith("Login failed"):
-        update.message.reply_text(token)
+        await update.message.reply_text(token)
         return
 
     for i in range(10):  # Number of times to play the game
         result = play_game(token)
-        update.message.reply_text(f"Game iteration {i + 1}: {result}")
+        await update.message.reply_text(f"Game iteration {i + 1}: {result}")
 
 def main():
     """Main function to run the bot."""
